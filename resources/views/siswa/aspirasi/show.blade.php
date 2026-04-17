@@ -8,7 +8,7 @@
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
         <div>
-            <h3 class="fw-bold mb-0">Aspirasi Saya #{{ $aspirasi->id_aspirasi }}</h3>
+            <h3 class="fw-bold mb-0">Aspirasi Saya</h3>
         </div>
     </div>
 

@@ -3,8 +3,39 @@
 @section('title', 'Daftar Aspirasi')
 
 @section('content')
-    <div class="mb-4 d-flex justify-content-between align-items-center">
+    <div class="mb-4">
         <h3 class="fw-bold mb-0">Daftar Semua Aspirasi</h3>
+    </div>
+
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label for="search" class="form-label">Cari nama:</label>
+                    <input type="text" id="search" name="search" class="form-control form-control-sm"
+                        value="{{ request('search') }}" placeholder="Masukkan nama siswa">
+                </div>
+                <div class="col-md-3">
+                    <label for="status" class="form-label">Filter status:</label>
+                    <select id="status" name="status" class="form-select form-select-sm">
+                        <option value=""
+                            {{ request('status') === null || request('status') === '' ? 'selected' : '' }}>
+                            Semua Status</option>
+                        <option value="Diajukan" {{ request('status') === 'Diajukan' ? 'selected' : '' }}>Diajukan</option>
+                        <option value="Diproses" {{ request('status') === 'Diproses' ? 'selected' : '' }}>Diproses</option>
+                        <option value="Selesai" {{ request('status') === 'Selesai' ? 'selected' : '' }}>Selesai</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="tanggal" class="form-label">Filter tanggal:</label>
+                    <input type="date" id="tanggal" name="tanggal" class="form-control form-control-sm"
+                        value="{{ request('tanggal') }}">
+                </div>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary btn-sm w-100">Terapkan</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <div class="card">

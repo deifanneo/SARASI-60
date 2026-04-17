@@ -45,13 +45,12 @@ CREATE TABLE IF NOT EXISTS umpan_balik (
     FOREIGN KEY (id_admin) REFERENCES admin(id_admin) ON DELETE CASCADE
 );
 
--- Dummy Data for Testing
 INSERT INTO kategori (nama_kategori) VALUES ('Sarana Belajar'), ('Kebersihan'), ('Fasilitas Umum'), ('Keamanan');
 
-INSERT INTO admin (email, password, nama_lengkap, level) VALUES 
-('admin@admin.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator', 'admin'); 
--- password is 'password' (bcrypt standard hash)
+INSERT INTO admin (email, password, nama_lengkap, level) VALUES
+('admin@admin.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrator', 'admin');
 
-INSERT INTO siswa (nisn, nama, kelas, password) VALUES 
-('1234567890', 'Budi Santoso', 'XII RPL 1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'); 
--- password is 'password'
+
+INSERT INTO siswa (nisn, nama, kelas, password) VALUES
+('1234567890', 'Budi Santoso', 'XII RPL 1', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi');
+

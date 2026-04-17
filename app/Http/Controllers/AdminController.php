@@ -27,14 +27,30 @@ class AdminController extends Controller
         return view('admin.dashboard', ['stats' => $hitungan, 'latest_aspirasi' => $data_terbaru]);
     }
 
-    public function aspirasiIndex()
+    public function aspirasiIndex(Request $request)
     {
-        $aspirasi = DB::table('aspirasi')
+        $query = DB::table('aspirasi')
             ->join('siswa', 'aspirasi.nisn', '=', 'siswa.nisn')
             ->join('kategori', 'aspirasi.id_kategori', '=', 'kategori.id_kategori')
-            ->select('aspirasi.*', 'siswa.nama', 'kategori.nama_kategori')
-            ->orderBy('tanggal_input', 'desc')
-            ->get();
+            ->select('aspirasi.*', 'siswa.nama', 'kategori.nama_kategori');
+
+        $status = $request->query('status');
+        $search = $request->query('search');
+        $tanggal = $request->query('tanggal');
+
+        if (in_array($status, ['Diajukan', 'Diproses', 'Selesai'])) {
+            $query->where('aspirasi.status', $status);
+        }
+
+        if ($search) {
+            $query->where('siswa.nama', 'LIKE', '%' . $search . '%');
+        }
+
+        if ($tanggal) {
+            $query->whereDate('aspirasi.tanggal_input', $tanggal);
+        }
+
+        $aspirasi = $query->orderBy('tanggal_input', 'desc')->get();
 
         return view('admin.aspirasi.index', compact('aspirasi'));
     }

@@ -8,7 +8,7 @@
             <i class="bi bi-arrow-left me-1"></i> Kembali
         </a>
         <div>
-            <h3 class="fw-bold mb-0">Detail Aspirasi #{{ $aspirasi->id_aspirasi }}</h3>
+            <h3 class="fw-bold mb-0">Detail Aspirasi</h3>
         </div>
     </div>
 
@@ -74,63 +74,65 @@
             </div>
 
             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+                <div class="card-header bg-white border-0 py-3">
                     <h6 class="mb-0 fw-bold">Tanggapan</h6>
-                    @if ($aspirasi->status !== 'Selesai')
-                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#tanggapiModal">
-                            <i class="bi bi-reply me-1"></i> Tanggapi
-                        </button>
-                    @endif
                 </div>
                 <div class="card-body">
                     @if (count($umpan_balik) > 0)
-                        @foreach ($umpan_balik as $u)
-                            <div class="border-start border-primary border-4 ps-3 mb-3">
-                                <div class="d-flex justify-content-between align-items-start mb-2">
-                                    <small class="text-muted">{{ $u->nama_lengkap }}</small>
-                                    <small
-                                        class="text-muted">{{ date('d M Y, H:i', strtotime($u->tanggal_tanggapan)) }}</small>
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            @foreach ($umpan_balik as $u)
+                                <div
+                                    style="background: #f8f9fa; padding: 12px 16px; border-radius: 8px; border-left: 4px solid #0d6efd;">
+                                    <div
+                                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                                        <small class="fw-bold">{{ $u->nama_lengkap }}</small>
+                                        <small
+                                            class="text-muted">{{ date('d M Y, H:i', strtotime($u->tanggal_tanggapan)) }}</small>
+                                    </div>
+                                    <p class="mb-0">{{ $u->tanggapan }}</p>
                                 </div>
-                                <p class="mb-0">{{ $u->tanggapan }}</p>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        </div>
                     @else
                         <p class="text-muted mb-0">Belum ada tanggapan.</p>
                     @endif
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal Tanggapi -->
-    <div class="modal fade" id="tanggapiModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tanggapi Aspirasi</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        <div class="col-lg-4">
+            @if ($aspirasi->status !== 'Selesai')
+                <div class="card border-0 shadow-sm sticky-top" style="top: 20px;">
+                    <div class="card-header bg-white border-0 py-3">
+                        <h6 class="mb-0 fw-bold"><i class="bi bi-reply me-2"></i>Tanggapi Aspirasi</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="/admin/aspirasi/{{ $aspirasi->id_aspirasi }}/tanggapi" method="POST">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Tanggapan</label>
+                                <textarea name="tanggapan" class="form-control" rows="5" placeholder="Tulis tanggapan Anda..." required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label small fw-bold">Status</label>
+                                <select name="status" class="form-select" required>
+                                    <option value="Diproses">Diproses</option>
+                                    <option value="Selesai">Selesai</option>
+                                </select>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send me-2"></i>Kirim Tanggapan
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <form action="/admin/aspirasi/{{ $aspirasi->id_aspirasi }}/tanggapi" method="POST">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label class="form-label">Tanggapan</label>
-                            <textarea name="tanggapan" class="form-control" rows="4" required></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Status</label>
-                            <select name="status" class="form-select" required>
-                                <option value="Diproses">Diproses</option>
-                                <option value="Selesai">Selesai</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn btn-primary">Kirim Tanggapan</button>
-                    </div>
-                </form>
-            </div>
+            @else
+                <div class="alert alert-success border-0">
+                    <i class="bi bi-check-circle me-2"></i>Aspirasi sudah ditanggapi
+                </div>
+            @endif
         </div>
     </div>
 @endsection
